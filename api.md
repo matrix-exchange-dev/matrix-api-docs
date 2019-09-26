@@ -1,12 +1,16 @@
 # Public Rest API for Matrix (2019-07-08)
 # General API Information
-* The base endpoint is: **https://api.matrix.com**
+* The base endpoint is: **https://api.matrix.co**
 * All endpoints return either a JSON object or array.
 * Data is returned in **ascending** order. Oldest first, newest last.
 * All time and timestamp related fields are in milliseconds.
 # API Access
 ## Authentication
 To protect API communication from unauthorized change, all non-public API calls are required to be signed.
+
+## Symbols
+Supported symbols：ETH_BTC,BCH_BTC,LTC_BTC,LTC_ETH,BCH_ETH
+
 # Public API Endpoints
 ## Market Data
 
@@ -23,7 +27,7 @@ To protect API communication from unauthorized change, all non-public API calls 
 | Name | Example  | Description  |
 | ------------ | ------------ | ------------ |
 | symbol | BCH_BTC |   |
-| type |  K_1_HOUR |  Data type of K-line graph |
+| type |  K_1_HOUR |  Data type of K-line graph （K_1_SEC,K_1_MIN,K_1_HOUR,K_1_DAY,K_5_MIN,K_15_MIN,K_30_MIN,K_4_HOUR,K_8_HOUR,K_1_WEEK）|
 **Parameters：**
 
 | Name  |  Required | Example  | Description  |
@@ -35,19 +39,19 @@ To protect API communication from unauthorized change, all non-public API calls 
 
 ```
 {
-   “ lastUpdateId ”： 1027024，
-   “bids”： [
-    [
-      “ 4.00000000 ”，      //PRICE
-      “ 431.00000000 ”     //QTY
-    ]
-  ]
-  “asks”： [
-    [
-      “ 4.00000200 ”，
-       “ 12.00000000 ”
-    ]
-  ]
+    "status": "success",
+    "data": {
+        "bars": [
+            "[1562155200000,0.03625,0.0363,0.036,0.036,0.66]",
+            "[1562158800000,0.03599,0.03624,0.03587,0.03624,0.49]",
+            "[1562162400000,0.03621,0.03621,0.03599,0.03602,0.2]",
+            "[1562169600000,0.03611,0.03655,0.03607,0.03655,0.32]",
+            "[1562173200000,0.03651,0.03712,0.03634,0.03712,0.67]",
+            "[1562176800000,0.03716,0.03732,0.03661,0.03661,0.59]",
+            "[1562180400000,0.03656,0.03688,0.03651,0.03651,0.15]",
+            "[1562205600000,0.03664,0.03664,0.03664,0.03664,0.01]"
+        ]
+    }
 }
 ```
 
