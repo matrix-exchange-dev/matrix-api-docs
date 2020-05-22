@@ -1,4 +1,4 @@
-# REST行情与交易接口 (2019-07-08)
+# REST行情与交易接口 (2020-05-22)
 # 基本信息
 * 本篇列出REST接口的baseurl **https://api.matrix.co**
 * 所有接口的响应都是JSON格式
@@ -78,6 +78,7 @@ API 请求在通过 internet 传输的过程中极有可能被篡改，为了确
 &nbsp;&nbsp; change = (bar[4] - bar[1]) / bar[1]; // 24小时变化量<br>
 &nbsp;&nbsp; amount = bar[5]; // 交易量<br>
 &nbsp;&nbsp; direction = change &gt;= 0; // 涨还是跌</p>
+&nbsp;&nbsp; ticks = bar[5] // 成交笔数</p>
 
 ### 请求参数
 
@@ -85,18 +86,14 @@ API 请求在通过 internet 传输的过程中极有可能被篡改，为了确
 
 ```
 {
-	"status": "success",
-	"data": {
-		"BCH_BTC": "[1562468623426,0.03583,0.03588,0.03486,0.0356,11.68]",
-		"BCH_ETH": "[1562468623426,1.3981372,1.4023618,1.323264,1.3387682,162.74986]",
-		"ETC_BTC": "[1562468623426,7.0E-4,7.0E-4,6.88E-4,6.89E-4,9.62]",
-		"ETC_ETH": "[1562468623426,0.02715,0.02725,0.02563,0.02594,11706.949]",
-		"ETH_BTC": "[1562468623426,0.02558,0.02673,0.0253,0.02673,11.095999]",
-		"LTC_BTC": "[1562468623426,0.010339,0.01054,0.01024,0.010409,1.6769999]",
-		"LTC_ETH": "[1562468623426,0.4106,0.4123,0.3844,0.3899,924.2485]",
-		"ZRX_BTC": "[1562468623426,2.5578E-5,2.69E-5,2.5382E-5,2.6264E-5,241.0]",
-		"ZRX_ETH": "[1562468623426,0.0010181,0.0010258,9.629E-4,9.958E-4,428.0]"
-	}
+    "status": "success",
+    "data": {
+        "BCH_BTC": "[1590054810803,0.030188,0.030188,0.030188,0.030188,0.0,0.0]",
+        "BCH_ETH": "[1590054810803,1.63796008,1.63796008,1.63796008,1.63796008,0.0,0.0]",
+        "ETH_BTC": "[1590054810803,0.02027,0.02027,0.02027,0.02027,0.0,0.0]",
+        "LTC_BTC": "[1590054810803,0.003,0.003,0.003,0.003,0.0,0.0]",
+        "LTC_ETH": "[1590054810803,0.3874,0.3874,0.3874,0.3874,0.0,0.0]"
+    }
 }
 ```
 
@@ -173,20 +170,27 @@ API 请求在通过 internet 传输的过程中极有可能被篡改，为了确
 
 ```
 {
-	"status": "success",
-	"data": [{
-		"amount": 0.088,
-		"createdAt": 1.562554733033E12,
-		"direction": false,
-		"price": 0.02673,
-		"symbol": "ETH_BTC"
-	}, {
-		"amount": 0.006,
-		"createdAt": 1.562550770542E12,
-		"direction": true,
-		"price": 0.0266,
-		"symbol": "ETH_BTC"
-	}]
+   "status":"success",
+   "data":[
+      {
+         "amount":0.005,
+         "createdAt":1.590041076902E12,
+         "direction":false,
+         "makerUserId":0.0,
+         "price":0.02027,
+         "symbol":"ETH_BTC",
+         "takerUserId":0.0
+      },
+      {
+         "amount":0.005,
+         "createdAt":1.590040762094E12,
+         "direction":false,
+         "makerUserId":0.0,
+         "price":0.02027,
+         "symbol":"ETH_BTC",
+         "takerUserId":0.0
+      }
+   ]
 }
 ```
 
@@ -212,19 +216,21 @@ API 请求在通过 internet 传输的过程中极有可能被篡改，为了确
                 "name": "BTC",
                 "legal": false,
                 "tokenDecimals": 8,
+                "scale": 6,
                 "depositEnabled": true,
                 "withdrawEnabled": true,
                 "meta": {},
-                "fex": 11944.577161968466316292
+                "fex": 9305.76
             },
             {
-                "name": "AED",
-                "legal": true,
-                "tokenDecimals": 5,
+                "name": "BCH",
+                "legal": false,
+                "tokenDecimals": 8,
+                "scale": 4,
                 "depositEnabled": true,
                 "withdrawEnabled": true,
                 "meta": {},
-                "fex": null
+                "fex": 236.01
             }
         ],
         "symbols": [
@@ -280,60 +286,24 @@ API 请求在通过 internet 传输的过程中极有可能被篡改，为了确
     "data": {
         "accounts": [
             {
-                "currency": "BTC",
-                "available": "123599455.038563896960271500",
-                "frozen": "733.760027621395800000",
-                "locked": "0",
-                "estimate": "1447648029967.10",
-                "legal": false
+                "currency":"BTC",
+                "available":"1.837988",
+                "frozen":"0.149881",
+                "locked":"0.000000",
+                "usdEstimate":"18498.63",
+                "btcEstimate":"1.987869",
+                "legal":false,
+                "scale":6
             },
             {
-                "currency": "CTC",
-                "available": "123600000.463143040000000000",
-                "frozen": "0.000000000000000000",
-                "locked": "0",
-                "estimate": "0.00",
-                "legal": false
-            },
-            {
-                "currency": "ETC",
-                "available": "123600000.000000000000000000",
-                "frozen": "0",
-                "locked": "0",
-                "estimate": "957495118.40",
-                "legal": false
-            },
-            {
-                "currency": "BCH",
-                "available": "123599998.208600000000000000",
-                "frozen": "0.000000000000000000",
-                "locked": "0",
-                "estimate": "51049065838.67",
-                "legal": false
-            },
-            {
-                "currency": "USD",
-                "available": "123600000.000000000000000000",
-                "frozen": "0",
-                "locked": "0",
-                "estimate": "0.00",
-                "legal": true
-            },
-            {
-                "currency": "ETH",
-                "available": "123599991.320700000000000000",
-                "frozen": "9.018000000000000000",
-                "locked": "0",
-                "estimate": "36418709180.31",
-                "legal": false
-            },
-            {
-                "currency": "LTC",
-                "available": "123600000.422900000000000000",
-                "frozen": "0",
-                "locked": "0",
-                "estimate": "14780092366.35",
-                "legal": false
+                "currency":"BCH",
+                "available":"0.8100",
+                "frozen":"0.0000",
+                "locked":"0.0000",
+                "usdEstimate":"191.17",
+                "btcEstimate":"0.020542",
+                "legal":false,
+                "scale":4
             }
         ],
         "fiatTotalEstimate": {
