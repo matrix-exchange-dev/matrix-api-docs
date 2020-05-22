@@ -1,4 +1,4 @@
-# Public Rest API for Matrix (2019-07-08)
+# Public Rest API for Matrix (2020-05-22)
 # General API Information
 * The base endpoint is: **https://api.matrix.co**
 * All endpoints return either a JSON object or array.
@@ -68,6 +68,7 @@ Supported symbols：ETH_BTC,BCH_BTC,LTC_BTC,LTC_ETH,BCH_ETH
 &nbsp;&nbsp; change = (bar[4] - bar[1]) / bar[1]; // 24-hour variation<br>
 &nbsp;&nbsp; amount = bar[5]; // Trading volume<br>
 &nbsp;&nbsp; direction = change &gt;= 0; // Rise or fall</p>
+&nbsp;&nbsp; ticks = bar[5] // The Number of Ticks</p>
 
 ### Request Parameters
 
@@ -75,18 +76,14 @@ Supported symbols：ETH_BTC,BCH_BTC,LTC_BTC,LTC_ETH,BCH_ETH
 
 ```
 {
-	"status": "success",
-	"data": {
-		"BCH_BTC": "[1562468623426,0.03583,0.03588,0.03486,0.0356,11.68]",
-		"BCH_ETH": "[1562468623426,1.3981372,1.4023618,1.323264,1.3387682,162.74986]",
-		"ETC_BTC": "[1562468623426,7.0E-4,7.0E-4,6.88E-4,6.89E-4,9.62]",
-		"ETC_ETH": "[1562468623426,0.02715,0.02725,0.02563,0.02594,11706.949]",
-		"ETH_BTC": "[1562468623426,0.02558,0.02673,0.0253,0.02673,11.095999]",
-		"LTC_BTC": "[1562468623426,0.010339,0.01054,0.01024,0.010409,1.6769999]",
-		"LTC_ETH": "[1562468623426,0.4106,0.4123,0.3844,0.3899,924.2485]",
-		"ZRX_BTC": "[1562468623426,2.5578E-5,2.69E-5,2.5382E-5,2.6264E-5,241.0]",
-		"ZRX_ETH": "[1562468623426,0.0010181,0.0010258,9.629E-4,9.958E-4,428.0]"
-	}
+    "status": "success",
+    "data": {
+        "BCH_BTC": "[1590054810803,0.030188,0.030188,0.030188,0.030188,0.0,0.0]",
+        "BCH_ETH": "[1590054810803,1.63796008,1.63796008,1.63796008,1.63796008,0.0,0.0]",
+        "ETH_BTC": "[1590054810803,0.02027,0.02027,0.02027,0.02027,0.0,0.0]",
+        "LTC_BTC": "[1590054810803,0.003,0.003,0.003,0.003,0.0,0.0]",
+        "LTC_ETH": "[1590054810803,0.3874,0.3874,0.3874,0.3874,0.0,0.0]"
+    }
 }
 ```
 
@@ -165,20 +162,27 @@ Supported symbols：ETH_BTC,BCH_BTC,LTC_BTC,LTC_ETH,BCH_ETH
 
 ```
 {
-	"status": "success",
-	"data": [{
-		"amount": 0.088,
-		"createdAt": 1.562554733033E12,
-		"direction": false,
-		"price": 0.02673,
-		"symbol": "ETH_BTC"
-	}, {
-		"amount": 0.006,
-		"createdAt": 1.562550770542E12,
-		"direction": true,
-		"price": 0.0266,
-		"symbol": "ETH_BTC"
-	}]
+   "status":"success",
+   "data":[
+      {
+         "amount":0.005,
+         "createdAt":1.590041076902E12,
+         "direction":false,
+         "makerUserId":0.0,
+         "price":0.02027,
+         "symbol":"ETH_BTC",
+         "takerUserId":0.0
+      },
+      {
+         "amount":0.005,
+         "createdAt":1.590040762094E12,
+         "direction":false,
+         "makerUserId":0.0,
+         "price":0.02027,
+         "symbol":"ETH_BTC",
+         "takerUserId":0.0
+      }
+   ]
 }
 ```
 
@@ -203,19 +207,21 @@ Supported symbols：ETH_BTC,BCH_BTC,LTC_BTC,LTC_ETH,BCH_ETH
                 "name": "BTC",
                 "legal": false,
                 "tokenDecimals": 8,
+                "scale": 6,
                 "depositEnabled": true,
                 "withdrawEnabled": true,
                 "meta": {},
-                "fex": 11944.577161968466316292
+                "fex": 9305.76
             },
             {
-                "name": "AED",
-                "legal": true,
-                "tokenDecimals": 5,
+                "name": "BCH",
+                "legal": false,
+                "tokenDecimals": 8,
+                "scale": 4,
                 "depositEnabled": true,
                 "withdrawEnabled": true,
                 "meta": {},
-                "fex": null
+                "fex": 236.01
             }
         ],
         "symbols": [
@@ -270,21 +276,25 @@ Supported symbols：ETH_BTC,BCH_BTC,LTC_BTC,LTC_ETH,BCH_ETH
     "data": {
         "accounts": [
             {
-                "currency": "BTC",
-                "available": "123599455.038563896960271500",
-                "frozen": "733.760027621395800000",
-                "locked": "0",
-                "estimate": "1447648029967.10",
-                "legal": false
-            },
-            {
-                "currency": "CTC",
-                "available": "123600000.463143040000000000",
-                "frozen": "0.000000000000000000",
-                "locked": "0",
-                "estimate": "0.00",
-                "legal": false
-            }
+            "currency":"BTC",
+            "available":"1.837988",
+            "frozen":"0.149881",
+            "locked":"0.000000",
+            "usdEstimate":"18498.63",
+            "btcEstimate":"1.987869",
+            "legal":false,
+            "scale":6
+         },
+         {
+            "currency":"BCH",
+            "available":"0.8100",
+            "frozen":"0.0000",
+            "locked":"0.0000",
+            "usdEstimate":"191.17",
+            "btcEstimate":"0.020542",
+            "legal":false,
+            "scale":4
+         }
         ],
         "fiatTotalEstimate": {
             "currency": "USD",
@@ -716,7 +726,7 @@ Supported symbols：ETH_BTC,BCH_BTC,LTC_BTC,LTC_ETH,BCH_ETH
 | end | No  |  2019-05-23 |   |
 | orderType | No  |  SELL |   |
 
-**响应：**
+#### Response:
 
 ```
 {
