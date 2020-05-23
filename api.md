@@ -329,7 +329,7 @@ Supported symbols：ETH_BTC,BCH_BTC,LTC_BTC,LTC_ETH,BCH_ETH
 | price    | false    | string |  Order price, market price list does not pass this parameter                                    |        |                                                              |
 | source   | false    | string |  Source of order                                                      |        |                                                              |
 | symbol   | true     | string |                                                        |        | BTC_USDT, ETH_BTC...                                         |
-| type     | true     | string |  Order type                                                      |        | BUY_MARKET：市价买, SELL_MARKET：市价卖, BUY_LIMIT：限价买,SELL_LIMIT：限价卖 |
+| type     | true     | string |  Order type                                                      |        | BUY_MARKET, SELL_MARKET, BUY_LIMIT, SELL_LIMIT |
 |          |          |        |                                                              |        |                                                              |
 
 #### Response:
