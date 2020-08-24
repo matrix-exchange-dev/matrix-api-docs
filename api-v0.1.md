@@ -1,22 +1,24 @@
 # Access preparation
 If you want to use API, please login to the webpage first, finish the application of API key and permission configuration and then develop and trade according to the details of this document. 
 
-Each user can create 5 API Key and each API Key corresponds to setting two kinds of permission: read and trade.  
+Each user can create 5 API Key and each API Key corresponds to setting two kinds of permission: Read and Trade.  
 
 <strong>All the data about frequency in the document is likely to be adjusted.</strong>
 
 ## Permission description as follows:
 
-Read permission: Read permission is used for data query interface, for example: order query, transaction query, etc. 
-Transaction permission: Transaction permission is used for interface of placing orders and cancelling orders.
-After successful creation, please remember the following information:
+Read permission: Read permission is used for data query interface, for example: order query, transaction query, etc.  
+
+Trade permission: Trade permission is used for interface of placing orders and cancelling orders.  
+
+After successful creation, please remember the following information:  
 
 
-Access Key: The key used in API request
+Access Key: The key used in API request  
 
 Secret Key: The key used for signature authentication and encryption(Only visible at the point when you successfully create 2 strings of field)
 
- <strong>It is suggested to bind IP address when creating API Key. After boundation, you can use trading interface. You cannot access the interface with an unbounded IP address.</strong>
+ <strong>It is requested to bind IP address when creating API Key. After boundation, you can use trading interface. You cannot access the interface with an unbounded IP address.</strong>
 
 ## Access type
 
@@ -44,11 +46,11 @@ Developers are recommended to use WebSocket API to achieve information like mark
 
 REST API
 
-https://api.matrix.co/
+https://zeus.matrix.co/
 
 Websocket Feed(Market data)
 
-https://wss.matrix.co/
+https://zeus-wss.matrix.co/
 
 #### Signature authentication
 
@@ -58,7 +60,7 @@ Each API Key need appropriate permission to access the corresponding interface. 
 
 A valid request is consisted of the following parts:
 
-API path:Access the server address api.matrix.co，for example api.matrix.co/v1/order/orders.
+API path:Access the server address zeus.matrix.co，for example zeus.matrix.co/v1/order/orders.
 API access Id (API-KEY) : Access Key in your API Key applied.
 API-SIGNATURE-METHOD:Hash-based signature authentication calculation, HmacSHA256 is used here
 API-SIGNATURE-VERSION:The version of signature protocol, version 1 is used here.
@@ -76,92 +78,92 @@ https://api.matrix.co/v1/order/orders?orderId=1234567890
 
 1. Request method(GET or POST, WebSocket using GET)，followed by a newline character “n”
 
-For example: GET\n
+    For example: GET\n
 
 2. Add the lowercase access domain name, followed by a newline character “n”
 
-For example: api.matrix.co\n
+    For example: zeus.matrix.co\n
 
 3. The path of access method, followed by a newline character “n”
 
-Such as query an order:
-/v1/order/orders\n
+    Such as query an order:
+    /v1/order/orders\n
 
 4. Encrypt Header information
 
-API-KEY=AAAADAVYcB2SNK5wFIAMHA2E \n
-
-API-SIGNATURE-METHOD=HmacSHA256 \n
-
-API-SIGNATURE-VERSION=1 \n
-
-API-TIMESTAMP=1593516127982 \n
+    API-KEY=AAAADAVYcB2SNK5wFIAMHA2E \n
+    
+    API-SIGNATURE-METHOD=HmacSHA256 \n
+    
+    API-SIGNATURE-VERSION=1 \n
+    
+    API-TIMESTAMP=1593516127982 \n
 
 5. According to the order above, connect the parameters
 
-POST\napi.matrix.co\n/v1/order/orders\nAAAADAVYcB2SNK5wFIAMHA2E\nHmacSHA256\n1\n1593516127982
+    POST\nzeus.matrix.co\n/v1/order/orders\nAAAADAVYcB2SNK5wFIAMHA2E\nHmacSHA256\n1\n1593516127982
 
 6. If it is a GET request
 
-Add corresponding request parameter at the end of the order above,
-For example: /v1/order/orders?currency=BTC, then the corresponding complete signature is
-GET\napi.matrix.co\n/v1/order/orders\nAAAADAVYcB2SNK5wFIAMHA2E\nHmacSHA256\n1\n1593516127982\ncurrency=BTC
-
-For example: /v1/order/trade/ticks/BTC_USD  ,then the corresponding complete signature is
-GET\napi.matrix.co\n/v1/order/trade/ticks/BTC_USD\nAAAADAVYcB2SNK5wFIAMHA2E\nHmacSHA256\n1\n1593516127982
+    Add corresponding request parameter at the end of the order above,
+    For example: /v1/order/orders?currency=BTC, then the corresponding complete signature is
+    GET\nzeus.matrix.co\n/v1/order/orders\nAAAADAVYcB2SNK5wFIAMHA2E\nHmacSHA256\n1\n1593516127982\ncurrency=BTC
+    
+    For example: /v1/order/trade/ticks/BTC_USD  ,then the corresponding complete signature is
+    GET\nzeus.matrix.co\n/v1/order/trade/ticks/BTC_USD\nAAAADAVYcB2SNK5wFIAMHA2E\nHmacSHA256\n1\n1593516127982
 
 7. If it is a POST request
 
-Add corresponding JSON request body at the end of the order above
+    Add corresponding JSON request body at the end of the order above
 
-For example: /v1/order/orders/place   
-body is
-```
-    {
-        "price":"1.0000",
-        "amount":"1",
-        "type":"BUY_LIMIT",
-        "symbol":"ETH_USD",
-        "triggerOn":"1.0000"
-    }
-```
-then the corresponding complete signature is
-POST\napi.matrix.co\n/v1/order/orders/place\nAAAADAVYcB2SNK5wFIAMHA2E\nHmacSHA256\n1\n1593516127982\namount=1&price=1.0000&symbol=ETH_USD&triggerOn=1.0000&type=BUY_LIMIT
-
-Note:  
-In the body part of the POST request, the code will be parsed according to the positive order of acsii code  
-
-In the parameter part of the GET request, the code will be parsed according to the positive order of acsii code
+    For example: /v1/order/orders/place   
+    body is
+    ```
+        {
+            "price":"1.0000",
+            "amount":"1",
+            "type":"BUY_LIMIT",
+            "symbol":"ETH_USD",
+            "triggerOn":"1.0000"
+        }
+    ```
+    then the corresponding complete signature is
+    POST\nzeus.matrix.co\n/v1/order/orders/place\nAAAADAVYcB2SNK5wFIAMHA2E\nHmacSHA256\n1\n1593516127982\namount=1&price=1.0000&symbol=ETH_USD&triggerOn=1.0000&type=BUY_LIMIT
+    
+    Note:  
+    In the body part of the POST request, the code will be parsed according to the positive order of acsii code  
+    
+    In the parameter part of the GET request, the code will be parsed according to the positive order of acsii code
 
 8. Use the "request string" generated in the previous step and your Secret Key to generate an electronic signature 
 
-Regard the request string generated in the previous step and API private key as two parameters and use HmacSHA256 Hash functions to get Hash value
-Encode the Hash value with base-64. The value obtained is used as the eletronic signature of this interface--
-4F65x5A2bLyMWVQj3Aqp+B4w+ivaA7n5Oi2SuYtCJ9o=
+    Regard the request string generated in the previous step and API private key as two parameters and use HmacSHA256 Hash functions to get Hash value
+    Encode the Hash value with base-64. The value obtained is used as the eletronic signature of this interface--
+    4F65x5A2bLyMWVQj3Aqp+B4w+ivaA7n5Oi2SuYtCJ9o=
 
 9. Add the electronic signature into the request
 
-For Rest interface:
-
-Add all the parameters that must be verified into the Header parameters of interface
-After URL encoding, add the electronic signature into the Header parameters, with parameter name "API-SIGNATURE".
-Finally, the API request sent to the server should be
-https://api.matrix.co/v1/order/orders?orderId=1234567890
-
-headers:     
-```
-    API-KEY:AAAADAVYcB2SNK5wFIAMHA2E
-    API-SIGNATURE-METHOD: HmacSHA256
-    API-SIGNATURE-VERSION: 1
-    API-TIMESTAMP: 1593516127982
-    API-SIGNATURE: 4F65x5A2bLyMWVQj3Aqp+B4w+ivaA7n5Oi2SuYtCJ9o=
-```
+    For Rest interface:
+    
+    Add all the parameters that must be verified into the Header parameters of interface
+    After URL encoding, add the electronic signature into the Header parameters, with parameter name "API-SIGNATURE".
+    Finally, the API request sent to the server should be
+    https://zeus.matrix.co/v1/order/orders?orderId=1234567890
+    
+    headers:     
+    ```
+        API-KEY:AAAADAVYcB2SNK5wFIAMHA2E
+        API-SIGNATURE-METHOD: HmacSHA256
+        API-SIGNATURE-VERSION: 1
+        API-TIMESTAMP: 1593516127982
+        API-SIGNATURE: 4F65x5A2bLyMWVQj3Aqp+B4w+ivaA7n5Oi2SuYtCJ9o=
+    ```
 
 
 ## API description
 
 ##### 1. Information of account balance
-API Key permission: read
+API Key permission: Read Only (Private Data)  
 Rate limiting value(NEW): 5 times/s
 
 Query all the account information related to the account of current user
@@ -169,7 +171,7 @@ HTTP request:
 · GET /v1/account/accounts/balance
 
 ##### Request parameter:
-No
+None
 
 ##### Response Content:
 | Parameter name | Required | Data Type | Description | Value Range |
@@ -219,7 +221,7 @@ Above is the request URL, and below is the response result.
 ```
 
 ##### 2. Information of account balance (single currency)
-API Key permission: read
+API Key permission: Read Only (Private Data)  
 Rate limiting value(NEW): 5 times/s
 
 Query the balance information of the user according to the current currency. Only support single currency query.
@@ -256,7 +258,7 @@ Above is the request URL, and below is the response result.
 ```
 
 ##### 3. Place order
-API Key permission: trade
+API Key permission: Trade  
 Rate limiting value(NEW): 5 times/s
 
 HTTP request:
@@ -341,7 +343,7 @@ Below is the response result.
     ```
 
 ##### 4. Place a batch of orders
-API Key permission: trade
+API Key permission: Trade  
 Rate limiting value(NEW): 5 times/s
 
 HTTP request:
@@ -402,7 +404,7 @@ Below is the response result.
 ```
 
 ##### 5. Submit cancel for an order
-API Key permission: trade
+API Key permission: Trade  
 Rate limiting valuew(NEW): 5 times/s
 
 HTTP request:
@@ -434,7 +436,7 @@ Below is the response result.
 ```
 
 ##### 6. Submit cancel for a batch of orders
-API Key permission: trade
+API Key permission: Trade  
 Rate limiting value(NEW): 5 times/s
 
 HTTP request:
@@ -500,7 +502,7 @@ Below is the response result.
 
 ##### 7. Query order detail
 
-API Key permission: read
+API Key permission: Read Only (Private Data)  
 Rate limiting value(NEW): 3 times/s
 
 HTTP request:
@@ -561,7 +563,7 @@ Above is the request URL, and below is the response result.
 
 ##### 8. Search past orders
 
-API Key permission: read
+API Key permission: Read Only (Private Data)  
 Rate limiting value(NEW): 3 times/s
 
 HTTP request:
@@ -649,7 +651,7 @@ Above is the request URL, and below is the response result.
 
 ##### 9. Get transaction detail
 
-API Key permission: read
+API Key permission: Read Only (Private Data)  
 Rate limiting value(NEW): 3 times/s
 
 This interface is based on search condition to query and past transaction record
@@ -717,7 +719,7 @@ Above is the request URL, and below is the response result.
 
 ##### 10. Get recent transaction data
 
-API Key permission: read
+API Key permission: Read Only (Private Data)  
 Rate limiting value(NEW): 5 times/s
 
 This interface is used to search transaction information in Matrix system when search condition is currency pair.
@@ -762,7 +764,7 @@ Above is the request URL, and below is the response result.
 
 ##### 11. Get Candlesticks data
 
-API Key permission: read
+API Key permission: Read Only (Public Data)  
 Rate limiting value(NEW): 5 times/s
 
 This interface is used to search Candlesticks information in Matrix market, when search condition is currency pair.
@@ -795,7 +797,7 @@ Above is the request URL, and below is the response result.
 
 ##### 12. Get the transaction fee ratio of current user
 
-API Key permission: read
+API Key permission: Read Only (Public Data)  
 Rate limiting value(NEW): 5 times/s
 
 HTTP request:
@@ -826,7 +828,7 @@ Above is the request URL, and below is the response result.
 
 ##### 13. Get market price of currency pair
 
-API Key permission: read
+API Key permission: Read Only (Public Data)  
 Rate limiting value(NEW): 5 times/s
 
 HTTP request:
@@ -855,14 +857,13 @@ Above is the request URL, and below is the response result
 
 ##### 14. Get Currency active list and Symbol sctive list
 
-API Key permission: read
+API Key permission: Read Only (Public Data)  
 Rate limiting value(NEW): 5 times/s
 
 HTTP request:
 · GET /v1/market/trades
 ##### Request parameter:
-| Parameter | Data Type | Required | Default | Description|
-|---| --- | --- | --- | --- |
+None  
 
 ##### Response Content:
 |Set name| Parameter | Data Type | Required | Default | Description|
@@ -923,7 +924,10 @@ Above is the request URL, and below is the response result.
 ### Access URL
 Matrix market data request address
 
-wss://wss.matrix.co
+wss://zeus-wss.matrix.co
+
+### Permission
+Read Only (Public Data)  
 
 #### Heartbeat information
 When user's Websocket client server is connected to the Websocket server of Matrix, the server will periodically (currently set 5s interval) send ping message including a following integer:
@@ -974,7 +978,7 @@ Once Candlesticks data is generated, Websocket server will push message to clien
 | type | string | Candlesticks type | 
 | data | object[] | Correspond respectively to [timestamp, the opening price, the high price, the closed price, the low price, transaction volume]|
 ```
-    ["topic_bar", {
+["topic_bar", {
   "symbol": "LTC_BTC",
   "type": "K_1_WEEK",
   "data": [1596384000000, 3.5, 11.9, 3.1, 3.7, 135713.866]
@@ -1002,7 +1006,7 @@ Once Candlesticks data is generated, Websocket server will push message to clien
 | symbol | string | Market currency pair | 
 | timestamp | string | Server sending time | 
 ```
-    ["topic_snapshot", {
+["topic_snapshot", {
   "symbol": "LTC_BTC",
   "sequenceId": 137356,
   "timestamp": 1596788101270,
@@ -1049,7 +1053,7 @@ Once Candlesticks data is generated, Websocket server will push message to clien
 | price | string | Market price | 
 | symbol | string | Current currency pair | 
 ```
-    ["topic_tick", {
+["topic_tick", {
   "symbol": "LTC_BTC",
   "price": 4.500000,
   "amount": 0.001,
@@ -1059,3 +1063,22 @@ Once Candlesticks data is generated, Websocket server will push message to clien
   "makerUserId": 0
 }]
 ```
+
+## API Summary
+| API Type | API Name | Access Permission | Operation Control | Remark|
+|---| --- | --- | --- | --- |
+|REST API| Information of account balance | API KEY | Read Only | |
+|REST API| Information of account balance (single currency) | API KEY | Read Only | |
+|REST API| Place order | API KEY | Trade | |
+|REST API| Place a batch of orders | API KEY | Trade | |
+|REST API| Submit cancel for an order | API KEY | Trade | |
+|REST API| Submit cancel for a batch of orders | API KEY | Trade | |
+|REST API| Query order detail | API KEY | Read Only | |
+|REST API| Search past orders | API KEY | Read Only | |
+|REST API| Get transaction detail | API KEY | Read Only | |
+|REST API| Get recent transaction data | API KEY | Read Only | |
+|REST API| Get Candlesticks data | API KEY | Read Only | Public Data |
+|REST API| Get the transaction fee ratio of current user | API KEY | Read Only | Public Data |
+|REST API| Get market price of currency pair | API KEY | Read Only | Public Data |
+|REST API| Get Currency active list and Symbol sctive list | API KEY | Read Only | Public Data |
+|WebSocket| Information of account balance | Public | Read Only | Public Data |
