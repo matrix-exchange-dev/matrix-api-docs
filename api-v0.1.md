@@ -46,11 +46,11 @@ Developers are recommended to use WebSocket API to achieve information like mark
 
 REST API
 
-https://zeus.matrix.co/
+https://api.matrix.co/
 
 Websocket Feed(Market data)
 
-https://zeus-wss.matrix.co/
+https://wss.matrix.co/
 
 #### Signature authentication
 
@@ -60,7 +60,7 @@ Each API Key need appropriate permission to access the corresponding interface. 
 
 A valid request is consisted of the following parts:
 
-API path:Access the server address zeus.matrix.co，for example zeus.matrix.co/v1/order/orders.
+API path:Access the server address api.matrix.co，for example api.matrix.co/v1/order/orders.
 API access Id (API-KEY) : Access Key in your API Key applied.
 API-SIGNATURE-METHOD:Hash-based signature authentication calculation, HmacSHA256 is used here
 API-SIGNATURE-VERSION:The version of signature protocol, version 1 is used here.
@@ -82,7 +82,7 @@ https://api.matrix.co/v1/order/orders?orderId=1234567890
 
 2. Add the lowercase access domain name, followed by a newline character “n”
 
-    For example: zeus.matrix.co\n
+    For example: api.matrix.co\n
 
 3. The path of access method, followed by a newline character “n”
 
@@ -101,16 +101,16 @@ https://api.matrix.co/v1/order/orders?orderId=1234567890
 
 5. According to the order above, connect the parameters
 
-    POST\nzeus.matrix.co\n/v1/order/orders\nAAAADAVYcB2SNK5wFIAMHA2E\nHmacSHA256\n1\n1593516127982
+    POST\napi.matrix.co\n/v1/order/orders\nAAAADAVYcB2SNK5wFIAMHA2E\nHmacSHA256\n1\n1593516127982
 
 6. If it is a GET request
 
     Add corresponding request parameter at the end of the order above,
     For example: /v1/order/orders?currency=BTC, then the corresponding complete signature is
-    GET\nzeus.matrix.co\n/v1/order/orders\nAAAADAVYcB2SNK5wFIAMHA2E\nHmacSHA256\n1\n1593516127982\ncurrency=BTC
+    GET\napi.matrix.co\n/v1/order/orders\nAAAADAVYcB2SNK5wFIAMHA2E\nHmacSHA256\n1\n1593516127982\ncurrency=BTC
     
     For example: /v1/order/trade/ticks/BTC_USD  ,then the corresponding complete signature is
-    GET\nzeus.matrix.co\n/v1/order/trade/ticks/BTC_USD\nAAAADAVYcB2SNK5wFIAMHA2E\nHmacSHA256\n1\n1593516127982
+    GET\napi.matrix.co\n/v1/order/trade/ticks/BTC_USD\nAAAADAVYcB2SNK5wFIAMHA2E\nHmacSHA256\n1\n1593516127982
 
 7. If it is a POST request
 
@@ -128,7 +128,7 @@ https://api.matrix.co/v1/order/orders?orderId=1234567890
         }
     ```
     then the corresponding complete signature is
-    POST\nzeus.matrix.co\n/v1/order/orders/place\nAAAADAVYcB2SNK5wFIAMHA2E\nHmacSHA256\n1\n1593516127982\namount=1&price=1.0000&symbol=ETH_USD&triggerOn=1.0000&type=BUY_LIMIT
+    POST\napi.matrix.co\n/v1/order/orders/place\nAAAADAVYcB2SNK5wFIAMHA2E\nHmacSHA256\n1\n1593516127982\namount=1&price=1.0000&symbol=ETH_USD&triggerOn=1.0000&type=BUY_LIMIT
     
     Note:  
     In the body part of the POST request, the code will be parsed according to the positive order of acsii code  
@@ -148,7 +148,7 @@ https://api.matrix.co/v1/order/orders?orderId=1234567890
     Add all the parameters that must be verified into the Header parameters of interface
     After URL encoding, add the electronic signature into the Header parameters, with parameter name "API-SIGNATURE".
     Finally, the API request sent to the server should be
-    https://zeus.matrix.co/v1/order/orders?orderId=1234567890
+    https://api.matrix.co/v1/order/orders?orderId=1234567890
     
     headers:     
     ```
@@ -182,7 +182,7 @@ None
 |scale|true|int|precision| |  
 ```
 Example: 
-URL: //zeus.matrix.co/v1/account/accounts/balance
+URL: //api.matrix.co/v1/account/accounts/balance
 Above is the request URL, and below is the response result.
 {
   "status": "success",
@@ -243,7 +243,7 @@ HTTP request:
 |scale|true|int|precision| |  
 ```
 Example: 
-URL: //zeus.matrix.co/v1/account/accounts/balance/USD
+URL: //api.matrix.co/v1/account/accounts/balance/USD
 Above is the request URL, and below is the response result.
 {
   "status": "success",
@@ -281,7 +281,7 @@ HTTP request:
 |clientOrderId| false  |  string | User-defined order number|  | |
 ```
 Example:
-URL://zeus.matrix.co/v1/order/orders/place
+URL://api.matrix.co/v1/order/orders/place
 Above is the request URL, and below is the request parameter.
 {
     "price": "3.5",
@@ -367,7 +367,7 @@ HTTP request:
 ```
 The maximum number of orders placed is 10.
 Example:
-URL: //zeus.matrix.co/v1/order/orders/batch-place
+URL: //api.matrix.co/v1/order/orders/batch-place
 Above is the request URL, and below is the request parameter.
 [{ "price": "4.3",
     "amount": "2.10",
@@ -421,7 +421,7 @@ HTTP request:
 | orderId | true | string | Order ID that user successfully cancel|  |
 ```
 Example: 
-URL: //zeus.matrix.co/v1/order/orders/cancel
+URL: //api.matrix.co/v1/order/orders/cancel
 Above is the request URL, and below is the request parameter.
 {"clientOrderId":"1596786999151","orderId":"135201"}
 Below is the response result.
@@ -455,7 +455,7 @@ HTTP request:
 | error-code | false | string | The reason for a failled cancel request. When orders in batches are placed, if one of the actions fails, and then jump this failed action, other orders will continue. When orders in batches are cancelled, if one of the actions fails, and then jump this failed action, other orders will continue. For particular CODE, please refer to following notes |  |
 ```
 Example：
-URL: //zeus.matrix.co/v1/order/orders/batch-cancel
+URL: //api.matrix.co/v1/order/orders/batch-cancel
 Above is the request URL, and below is the request parameter
 {
   "clientOrderIds": "1596789621395,15967896213951,15967896213952,15967896213953,15967896213955,15967896213956,15967896213957",
@@ -535,7 +535,7 @@ HTTP request:
 |feeCurrency | true | string |  currency of transaction fee| |
 ```
 Example:
-URL: //zeus.matrix.co/v1/order/orders/57171
+URL: //api.matrix.co/v1/order/orders/57171
 Above is the request URL, and below is the response result.
 {
   "status": "success",
@@ -605,7 +605,7 @@ HTTP request:
 |feeCurrency | true | string |  currency of transaction fee| |
 ```
 Example:
-URL: //zeus.matrix.co/v1/order/orders?symbol=LTC_BTC&types=SELL_MARKET&status=FULLY_FILLED,FULLY_CANCELLED&startTime=1596769362290&endTime=1596783743947&from=134748&direct=prev&size=500&side=SELL
+URL: //api.matrix.co/v1/order/orders?symbol=LTC_BTC&types=SELL_MARKET&status=FULLY_FILLED,FULLY_CANCELLED&startTime=1596769362290&endTime=1596783743947&from=134748&direct=prev&size=500&side=SELL
 Above is the request URL, and below is the response result.
 {
   "status": "success",
@@ -685,7 +685,7 @@ HTTP request:
 |userId | true | string | Matrix user ID | |
 ```
 Example:
-URL: //zeus.matrix.co/v1/order/trade?startTime=1593683955164&endTime=1593684111172&symbol=BCH_BTC&size=10&types=BUY_LIMIT,MARKET_SELL&side=BUY&from=90440&direct=prev
+URL: //api.matrix.co/v1/order/trade?startTime=1593683955164&endTime=1593684111172&symbol=BCH_BTC&size=10&types=BUY_LIMIT,MARKET_SELL&side=BUY&from=90440&direct=prev
 Above is the request URL, and below is the response result.
 {
   "status": "success",
@@ -742,7 +742,7 @@ HTTP request:
 |symbol| true | string | current currency pair| |
 ```
 Example:
-URL: //zeus.matrix.co/v1/order/trade/ticks/LTC_BTC
+URL: //api.matrix.co/v1/order/trade/ticks/LTC_BTC
 Above is the request URL, and below is the response result.
 {
   "status": "success",
@@ -787,7 +787,7 @@ Candlesticks type include: K_1_MIN, K_5_MIN, K_15_MIN, K_30_MIN, K_1_HOUR, K_4_H
 |bars | true | string[] | represent respectively: [timestamp of Candlesticks, the opening price, the high price,the closed price, the low price, transaction volume] | |
 ```
 Example:
-URL: //zeus.matrix.co/v1/order/trade/bars/ETH_BTC/K_1_WEEK
+URL: //api.matrix.co/v1/order/trade/bars/ETH_BTC/K_1_WEEK
 Above is the request URL, and below is the response result.
 {
   "status": "success",
@@ -815,7 +815,7 @@ HTTP request:
 |maker | true | string | MAKER  transaction fee ratio | |
 ```
 Example:
-URL: //zeus.matrix.co/v1/order/trade/fee?symbol=BTC_USD
+URL: //api.matrix.co/v1/order/trade/fee?symbol=BTC_USD
 Above is the request URL, and below is the response result.
 {
   "status": "success",
@@ -845,7 +845,7 @@ HTTP request:
 | currency pair information | [timestamp, the opening price, the high price, the closed price, the low price, transaction volume]
 ```
 Example:
-URL: //zeus.matrix.co/v1/order/trade/prices?symbol=LTC_BTC
+URL: //api.matrix.co/v1/order/trade/prices?symbol=LTC_BTC
 Above is the request URL, and below is the response result
 {
   "status": "success",
@@ -883,7 +883,7 @@ None
 
 ```
 Example:
-URL: https://zeus.matrix.co/v1/market/trades
+URL: https://api.matrix.co/v1/market/trades
 Above is the request URL, and below is the response result.
 {
   "status": "success",
@@ -924,7 +924,7 @@ Above is the request URL, and below is the response result.
 ### Access URL
 Matrix market data request address
 
-wss://zeus-wss.matrix.co
+wss://wss.matrix.co
 
 ### Permission
 Read Only (Public Data)  
