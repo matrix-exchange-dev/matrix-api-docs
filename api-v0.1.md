@@ -499,8 +499,31 @@ Below is the response result.
 }
 
 ```
+##### 7. Submit cancel for all personal orders
 
-##### 7. Query order detail
+API Key permission: Trade
+Rate limiting value(NEW): 2 times/s
+
+HTTP request:
+· POST /v1/order/orders/cancel-all
+##### Request parameter:
+None  
+
+##### Response Content:
+None
+
+```
+Example:
+URL: https://api.matrix.co/v1/order/orders/cancel-all
+Above is the request URL, and below is the response result.
+{
+  "status": "success",
+  "data": {
+  }
+}
+```
+
+##### 8. Query order detail
 
 API Key permission: Read Only (Private Data)  
 Rate limiting value(NEW): 3 times/s
@@ -561,7 +584,7 @@ Above is the request URL, and below is the response result.
 }
 ```
 
-##### 8. Search past orders
+##### 9. Search past orders
 
 API Key permission: Read Only (Private Data)  
 Rate limiting value(NEW): 3 times/s
@@ -649,7 +672,7 @@ Above is the request URL, and below is the response result.
 }
 ```
 
-##### 9. Get transaction detail
+##### 10. Get transaction detail
 
 API Key permission: Read Only (Private Data)  
 Rate limiting value(NEW): 3 times/s
@@ -717,7 +740,7 @@ Above is the request URL, and below is the response result.
 }
 ```
 
-##### 10. Get recent transaction data
+##### 11. Get recent transaction data
 
 API Key permission: Read Only (Private Data)  
 Rate limiting value(NEW): 5 times/s
@@ -762,7 +785,104 @@ Above is the request URL, and below is the response result.
 }
 ```
 
-##### 11. Get Candlesticks data
+##### 12. Get Trade History
+API Key permission: Trade
+Rate limiting value(NEW): 2 times/s
+
+HTTP request:
+· GET /v1/order/orders/history
+##### Request parameter:
+| Parameter | Data Type | Required | Default | Description|
+|---| --- | --- | --- | --- |
+|startTime| number | true | NA | Trade start time.The start time and end time cannot differ by 180 days|
+|endTime| number | true | NA | Trade end time.The start time and end time cannot differ by 180 days|  
+|symbol| string | true | NA | Currency pair name|  
+|from | int | false| NA | If it is next query, it is assigned as the last id in the previous query result; If i tis next query, it is assigned as the first id in the previous query result; From and direct must exist at the same time | 
+|direct | string | false | NA | prev ; next |
+|size | int | false | 100 | [1,500]
+
+##### Response Content:
+|Set name| Parameter | Data Type | Required | Default | Description|
+| --- |---| --- | --- | --- | --- |
+| orderTxId | string | true | NA | Matrix order id | 
+| symbol | string | true | NA | Currency pair name | 
+| time | int | true | NA | Unix timestamp of trade |
+| type | string | true | NA | Type of order (buy/sell) |
+| orderType | string | true | NA | Order type|
+| vol | int | true | NA | Volume (positive is a buy/ negative is a sell) |
+| price | string | true | NA | Average price order was executed at (quote asset) | 
+| cost | string | true| NA | Total cost of order (quote asset)|
+| fee | int | true | NA | Total fee (quote asset) | 
+| vat | string |  true | NA | VAT (quote asset)|
+| misc | string |  true | NA | Comma delimited list of miscellaneous info|
+```
+Example:
+URL: https://api.matrix.co/v1/order/orders/history?startTime=1603251377000&endTime=1608521777000&pair=BCH_USD
+Above is the request URL, and below is the response result.
+{
+  "status": "success",
+  "data": {
+      {
+    "status": "success",
+    "data": [
+        {
+            "orderTxId": 711,
+            "symbol": "BCH_USD",
+            "time": 1606186881354,
+            "type": "buy",
+            "orderType": "BUY_LIMIT",
+            "vol": 1.000000000000000000,
+            "price": 1.000000000000000000000000000000,
+            "cost": null,
+            "fee": 0.001000000000000000,
+            "vat": null,
+            "misc": "FULLY_FILLED"
+        },
+        {
+            "orderTxId": 712,
+            "symbol": "BCH_USD",
+            "time": 1606186947269,
+            "type": "sell",
+            "orderType": "SELL_LIMIT",
+            "vol": -1.000000000000000000,
+            "price": 1.000000000000000000000000000000,
+            "cost": null,
+            "fee": 0.002000000000000000,
+            "vat": null,
+            "misc": "FULLY_FILLED"
+        },
+        {
+            "orderTxId": 713,
+            "symbol": "BCH_USD",
+            "time": 1606187540901,
+            "type": "buy",
+            "orderType": "BUY_LIMIT",
+            "vol": 1.000000000000000000,
+            "price": 1.000000000000000000000000000000,
+            "cost": null,
+            "fee": 0.001000000000000000,
+            "vat": null,
+            "misc": "FULLY_FILLED"
+        },
+        {
+            "orderTxId": 714,
+            "symbol": "BCH_USD",
+            "time": 1603509149000,
+            "type": "sell",
+            "orderType": "SELL_LIMIT",
+            "vol": -1.000000000000000000,
+            "price": 1.000000000000000000000000000000,
+            "cost": null,
+            "fee": 0.002000000000000000,
+            "vat": null,
+            "misc": "FULLY_FILLED"
+        }
+    ]
+  }
+}
+```
+
+##### 13. Get Candlesticks data
 
 API Key permission: Read Only (Public Data)  
 Rate limiting value(NEW): 5 times/s
@@ -795,7 +915,7 @@ Above is the request URL, and below is the response result.
 }
 ```
 
-##### 12. Get the transaction fee ratio of current user
+##### 14. Get the transaction fee ratio of current user
 
 API Key permission: Read Only (Public Data)  
 Rate limiting value(NEW): 5 times/s
@@ -826,7 +946,7 @@ Above is the request URL, and below is the response result.
 }
 ```
 
-##### 13. Get market price of currency pair
+##### 15. Get market price of currency pair
 
 API Key permission: Read Only (Public Data)  
 Rate limiting value(NEW): 5 times/s
@@ -855,7 +975,7 @@ Above is the request URL, and below is the response result
 }
 ```
 
-##### 14. Get Currency active list and Symbol sctive list
+##### 16. Get Currency active list and Symbol active list
 
 API Key permission: Read Only (Public Data)  
 Rate limiting value(NEW): 5 times/s
@@ -916,7 +1036,6 @@ Above is the request URL, and below is the response result.
     }]
   }
 }
-
 ```
 
 ## WEBSOCKET Description
@@ -1073,12 +1192,14 @@ Once Candlesticks data is generated, Websocket server will push message to clien
 |REST API| Place a batch of orders | API KEY | Trade | |
 |REST API| Submit cancel for an order | API KEY | Trade | |
 |REST API| Submit cancel for a batch of orders | API KEY | Trade | |
+|REST API| Sumbit cancel for all personal orders | API KEY | Trade | |
 |REST API| Query order detail | API KEY | Read Only | |
 |REST API| Search past orders | API KEY | Read Only | |
 |REST API| Get transaction detail | API KEY | Read Only | |
 |REST API| Get recent transaction data | API KEY | Read Only | |
+|REST API| Get Trade History | API KEY | Read Only | |
 |REST API| Get Candlesticks data | API KEY | Read Only | Public Data |
 |REST API| Get the transaction fee ratio of current user | API KEY | Read Only | Public Data |
 |REST API| Get market price of currency pair | API KEY | Read Only | Public Data |
-|REST API| Get Currency active list and Symbol sctive list | API KEY | Read Only | Public Data |
+|REST API| Get Currency active list and Symbol active list | API KEY | Read Only | Public Data |
 |WebSocket| Information of account balance | Public | Read Only | Public Data |
