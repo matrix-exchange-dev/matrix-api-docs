@@ -796,7 +796,7 @@ HTTP request:
 |---| --- | --- | --- | --- |
 |startTime| number | true | NA | Trade start time.The start time and end time cannot differ by 180 days|
 |endTime| number | true | NA | Trade end time.The start time and end time cannot differ by 180 days|  
-|symbol| string | true | NA | Currency pair name|  
+|symbol| string | false | NA | Currency pair name|  
 |from | int | false| NA | If it is next query, it is assigned as the last id in the previous query result; If i tis next query, it is assigned as the first id in the previous query result; From and direct must exist at the same time | 
 |direct | string | false | NA | prev ; next |
 |size | int | false | 100 | [1,500]
@@ -817,7 +817,7 @@ HTTP request:
 | misc | string |  true | NA | Comma delimited list of miscellaneous info|
 ```
 Example:
-URL: https://api.matrix.co/v1/order/orders/history?startTime=1603251377000&endTime=1608521777000&pair=BCH_USD
+URL: https://api.matrix.co/v1/order/orders/history?startTime=1603251377000&endTime=1608521777000&symbol=BCH_USD
 Above is the request URL, and below is the response result.
 {
   "status": "success",
@@ -1203,3 +1203,21 @@ Once Candlesticks data is generated, Websocket server will push message to clien
 |REST API| Get market price of currency pair | API KEY | Read Only | Public Data |
 |REST API| Get Currency active list and Symbol active list | API KEY | Read Only | Public Data |
 |WebSocket| Information of account balance | Public | Read Only | Public Data |
+
+## ERROR CODE
+| Error Message | HTTP Status Code | Error Code |
+|---| --- | --- |
+| METHOD NOT FOUND | 500 | 10000 |
+| API KEY NOT FOUND | 500 | 10001 |
+| IP NOT PERMISSION | 500 | 10002 |
+| SIGNATURE TIMESTAMP INVALID | 500 | 10003 |
+| SIGNATURE ERROR | 500 | 10004 |
+| TOO MANY REQUESTS | 429 | 10005 |
+| REQUEST BODY SIZE TOO LARGE | 500 | 10006 |
+| ID NOT FOUND | 500 | 10007 |
+| AUTH SIGNIN REQUIRED | 500 | 10008 |
+| TIME OUT OF LIMIT | 500 | 10009 |
+| PARAMS ERROR | 500 | 10010 |
+| API KEY PERMISSION DENIED | 500 | 10011 |
+| API KEY EXPIRED | 500 | 10012 |
+| SERVICE INTERNAL ERROR | 500 | 50000 |
