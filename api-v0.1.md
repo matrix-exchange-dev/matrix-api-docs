@@ -131,9 +131,9 @@ https://api.matrix.co/v1/order/orders?orderId=1234567890
     POST\napi.matrix.co\n/v1/order/orders/place\nAAAADAVYcB2SNK5wFIAMHA2E\nHmacSHA256\n1\n1593516127982\namount=1&price=1.0000&symbol=ETH_USD&triggerOn=1.0000&type=BUY_LIMIT
     
     Note:  
-    In the body part of the POST request, the code will be parsed according to the positive order of acsii code  
+    In the body part of the POST request, the code will be parsed according to the positive order of ASCII code  
     
-    In the parameter part of the GET request, the code will be parsed according to the positive order of acsii code
+    In the parameter part of the GET request, the code will be parsed according to the positive order of ASCII code
 
 8. Use the "request string" generated in the previous step and your Secret Key to generate an electronic signature 
 
