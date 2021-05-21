@@ -162,7 +162,7 @@ https://api.matrix.co/v1/order/orders?orderId=1234567890
 
 ## API description
 
-##### 1. Information of account balance
+#### 1. Information of account balance
 API Key permission: Read Only (Private Data)  
 Rate limiting value(NEW): 5 times/s
 
@@ -220,7 +220,7 @@ Above is the request URL, and below is the response result.
 }
 ```
 
-##### 2. Information of account balance (single currency)
+#### 2. Information of account balance (single currency)
 API Key permission: Read Only (Private Data)  
 Rate limiting value(NEW): 5 times/s
 
@@ -232,7 +232,7 @@ HTTP request:
 ##### Request parameter:
 | Parameter | Data Type | Required | Default | Description |
 |---| --- | --- | --- | --- |
-|currency| string | true | NA | Currency queried, like BTC|
+|currency| string | true | NA | The currency of this balance|
 
 ##### Response Content:
 | Parameter name | Required | Data Type | Description | Value Range |
@@ -257,7 +257,7 @@ Above is the request URL, and below is the response result.
 
 ```
 
-##### 3. Place order
+#### 3. Place order
 API Key permission: Trade  
 Rate limiting value(NEW): 5 times/s
 
@@ -268,17 +268,17 @@ HTTP request:
 | Parameter | Data type | Required | Default | Description|
 |---| --- | --- | --- | --- | 
 |symbol| string | true | NA | currency pair traded, like BTC_USD (Need capital to exactly match)|
-|type|string|true|NA|transaction type, like: BUY_LIMIT (Need capital to exactly match)|
+|type|string|true|NA|BUY_LIMIT,SELL_LIMIT,BUY_MARKET,SELL_MARKET,CANCEL_BUY,CANCEL_SELL|
 |amount|string|false|0| order size|
-|price|string|true|NA| BUY_LIMIT or SELL_LIMIT represents unit price, BUY_MARKET or SELL_MARKET represents total price，|
+|price|string|true|NA| The order price (not available for market order)|
 |triggerOn| string | false | 0 | trigger price|
 |clientOrderId| string | false | NA | User-defined order number | |
 
 ##### Response Content:
-| Parameter name | Required | Data Type | Description | Value Range |
+| Parameter name | Required | Data Type | Description |  |
 | ------- | :----:  | :-----: | ---- | ------|
 |orderId | true  |  string | Order ID of orders successfully placed in Matrix system  |        |
-|clientOrderId| false  |  string | User-defined order number|  | |
+|clientOrderId| false  |  string | User-defined order number (maximum 20-character length)|  | |
 ```
 Example:
 URL://api.matrix.co/v1/order/orders/place
@@ -288,7 +288,7 @@ Above is the request URL, and below is the request parameter.
     "amount": "1.8",
     "type": "BUY_LIMIT",
     "symbol": "LTC_BTC",
-    "total": "3","clientOrderId":"1596786438902"
+    "clientOrderId":"1596786438902"
 }
 Below is the response result.
 {
@@ -342,9 +342,11 @@ Below is the response result.
     }
     ```
 
-##### 4. Place a batch of orders
+#### 4. Place a batch of orders
 API Key permission: Trade  
 Rate limiting value(NEW): 5 times/s
+
+The maximum number of orders placed is 10.
 
 HTTP request:
 · POST /v1/order/orders/batch-place
@@ -352,12 +354,12 @@ HTTP request:
 ##### Request parameter:
 | Parameter | Data type | Required | Default | Description|
 |---| --- | --- | --- | --- |
-|[{symbol| string | true | NA | Currency pair traded, like: BTC_USD (Need capital to exactly match)|
-|type|string|true|NA|Transaction type, like: BUY_LIMIT (Need capital to exactly match)|
+|[{symbol| string | true | NA | Currency pair name|
+|type|string|true|NA|BUY_LIMIT,SELL_LIMIT,BUY_MARKET,SELL_MARKET,CANCEL_BUY,CANCEL_SELL|
 |amount|string|false|0| order size; When place market sell orders, it is possible that there is no amount|
-|price|string|true|NA| BUY_LIMIT or SELL_LIMIT represents unit price，BUY_MARKET or SELL_MARKET represents total price; When place market sell orders, it is possible that there is no amount|
+|price|string|false|NA| The order price (not available for market order)|
 |triggerOn| string | false | 0 | trigger price|
-|clientOrderId}]| string | false | NA | User-defined order number |
+|clientOrderId}]| string | false | NA | User-defined order number (maximum 20-character length)|
 
 ##### Response Content:
 | Parameter Name | Required | Data Type | Description | Value Range |
@@ -365,7 +367,7 @@ HTTP request:
 |[{orderId | true  |  string | Order ID of orders successfully placed in Matrix system |        |
 |clientOrderId}]| false  |  string | ser-defined order number|  | | 
 ```
-The maximum number of orders placed is 10.
+
 Example:
 URL: //api.matrix.co/v1/order/orders/batch-place
 Above is the request URL, and below is the request parameter.
@@ -373,17 +375,17 @@ Above is the request URL, and below is the request parameter.
     "amount": "2.10",
     "type": "SELL_LIMIT",
     "symbol": "BTC_USD",
-    "total": "3","clientOrderId":"1596786029042"},
+    "clientOrderId":"1596786029042"},
     { "price": "4.1",
     "amount": "1.5",
     "type": "BUY_LIMIT",
     "symbol": "BCH_BTC",
-    "total": "3","clientOrderId":"15967860290421"},
+    "clientOrderId":"15967860290421"},
     { "price": "4.4",
     "amount": "1.3",
     "type": "SELL_LIMIT",
     "symbol": "LTC_ETH",
-    "total": "3","clientOrderId":"15967860290422"}]
+    "clientOrderId":"15967860290422"}]
 Below is the response result.
 {
   "status": "success",
@@ -403,7 +405,7 @@ Below is the response result.
 }
 ```
 
-##### 5. Submit cancel for an order
+#### 5. Submit cancel for an order
 API Key permission: Trade  
 Rate limiting valuew(NEW): 5 times/s
 
@@ -414,6 +416,7 @@ HTTP request:
 | Parameter | Data Type | Required | Default | Description|
 |---| --- | --- | --- | --- |
 |orderId| string | true | NA | Order ID that user would like to cancel|
+|clientOrderId| string | false | NA | User-defined order number (maximum 20-character length)|
 
 ##### Response Content:
 | Parameter Name | Required | Data Type | Description | Value Range |
@@ -435,7 +438,7 @@ Below is the response result.
 }
 ```
 
-##### 6. Submit cancel for a batch of orders
+#### 6. Submit cancel for a batch of orders
 API Key permission: Trade  
 Rate limiting value(NEW): 5 times/s
 
@@ -458,7 +461,6 @@ Example：
 URL: //api.matrix.co/v1/order/orders/batch-cancel
 Above is the request URL, and below is the request parameter
 {
-  "clientOrderIds": "1596789621395,15967896213951,15967896213952,15967896213953,15967896213955,15967896213956,15967896213957",
   "orderIds": "1,10,20"
 }
 Below is the response result.
@@ -499,7 +501,7 @@ Below is the response result.
 }
 
 ```
-##### 7. Submit cancel for all personal orders
+#### 7. Submit cancel for all personal orders
 
 API Key permission: Trade
 Rate limiting value(NEW): 2 times/s
@@ -523,7 +525,7 @@ Above is the request URL, and below is the response result.
 }
 ```
 
-##### 8. Query order detail
+#### 8. Query order detail
 
 API Key permission: Read Only (Private Data)  
 Rate limiting value(NEW): 3 times/s
@@ -552,7 +554,7 @@ HTTP request:
 |triggerOn | true| string| Only works with stop-limit order, trigger price| |
 |makerFeeRate | true | string | maker transaction fee ratio| |
 |takerFeeRate | true | string | taker  transaction fee ratio| |
-|status | true| string | current order status | |
+|status | true| string | Order status,valid values:SUBMITTED,SEQUENCED,PARTIAL_FILLED,PARTIAL_CANCELLED | |
 |  orderId | true | string |  Order ID in Matrix system | |
 |clientOrderId | true | string | User-defined order number(if no results, display null) | |
 |feeCurrency | true | string |  currency of transaction fee| |
@@ -584,7 +586,7 @@ Above is the request URL, and below is the response result.
 }
 ```
 
-##### 9. Search past orders
+#### 9. Search past orders
 
 API Key permission: Read Only (Private Data)  
 Rate limiting value(NEW): 3 times/s
@@ -599,11 +601,11 @@ HTTP request:
 | types | string | false | NA | order type queried, use ',' to query multiple query conditions|
 | startTime| int | false | NA | timestamp, the beginning time of the order (no more than 48h between the end time)|
 |endTime | int | false| NA | timestamp, the end time of the order(no more than 48h between the beginning time)
-|status | string | false | NA | Query order status, use ',' to query multiple query conditions|
+|status | string | false | NA | Order status,valid values:SUBMITTED,SEQUENCED,PARTIAL_FILLED,PARTIAL_CANCELLED|
 |side | string | false | NA | order side, SELL, BUY|
-|from | int | false|NA | If it is next query, it is assigned as the last id in the previous query result; If i tis next query, it is assigned as the first id in the previous query result; From and direct must exist at the same time | 
+|from | int | false|NA | If it is next query, it is assigned as the last order id in the previous query result; If it is next query, it is assigned as the first order id in the previous query result; From and direct must exist at the same time | 
 |direct | string | false | NA | prev ; next |
-|size | int | false | 100 | [1,100]
+|size | int | false | 100 | [1,500]
 
 
 ##### Response Content:
@@ -672,12 +674,13 @@ Above is the request URL, and below is the response result.
 }
 ```
 
-##### 10. Get transaction detail
+#### 10. Get transaction detail
 
 API Key permission: Read Only (Private Data)  
 Rate limiting value(NEW): 3 times/s
 
 This interface is based on search condition to query and past transaction record
+
 HTTP request:
 · GET /v1/order/trade
 
@@ -689,7 +692,7 @@ HTTP request:
 | startTime| int | false | NA | timestamp, the beginning time of the order(no more than 48h between the end time)|
 |endTime | int | false| NA | timestamp, the end time of the order(no more than 48h than the beginning time)
 |side | string | false | NA | order side: SELL, BUY|
-|from | int | false|NA | If it is next query, it is assigned as the last id in the previous query result; If it is next query, it is assigned as the first; From and direct must exist at the same time | 
+|from | int | false|NA | If it is next query, it is assigned as the last order id in the previous query result; If it is next query, it is assigned as the first order id; From and direct must exist at the same time | 
 |direct | string | false | NA | prev ; next |
 |size | int | false | 100 | [1,500]
 
@@ -740,7 +743,7 @@ Above is the request URL, and below is the response result.
 }
 ```
 
-##### 11. Get recent transaction data
+#### 11. Get recent transaction data
 
 API Key permission: Read Only (Private Data)  
 Rate limiting value(NEW): 5 times/s
@@ -785,7 +788,7 @@ Above is the request URL, and below is the response result.
 }
 ```
 
-##### 12. Get Trade History
+#### 12. Get Trade History
 API Key permission: Trade
 Rate limiting value(NEW): 2 times/s
 
@@ -882,7 +885,7 @@ Above is the request URL, and below is the response result.
 }
 ```
 
-##### 13. Get Candlesticks data
+#### 13. Get Candlesticks data
 
 API Key permission: Read Only (Public Data)  
 Rate limiting value(NEW): 5 times/s
@@ -899,7 +902,7 @@ HTTP request:
 |type| string | true | NA | Candlesticks type | 
 
 ##### Note:
-Candlesticks type include: K_1_MIN, K_5_MIN, K_15_MIN, K_30_MIN, K_1_HOUR, K_4_HOUR, K_8_HOUR, K_12_HOUR, K_1_DAY, K_1_WEEK
+Candlesticks type include: K_1_MIN, K_5_MIN, K_15_MIN, K_30_MIN, K_1_HOUR, K_4_HOUR, K_8_HOUR, K_1_DAY, K_1_WEEK
 
 ##### Response Content:
 | Parameter Name | Required | Data Type | Description | Value Range |
@@ -915,7 +918,7 @@ Above is the request URL, and below is the response result.
 }
 ```
 
-##### 14. Get the transaction fee ratio of current user
+#### 14. Get the transaction fee ratio of current user
 
 API Key permission: Read Only (Public Data)  
 Rate limiting value(NEW): 5 times/s
@@ -946,7 +949,7 @@ Above is the request URL, and below is the response result.
 }
 ```
 
-##### 15. Get market price of currency pair
+#### 15. Get market price of currency pair
 
 API Key permission: Read Only (Public Data)  
 Rate limiting value(NEW): 5 times/s
@@ -975,7 +978,7 @@ Above is the request URL, and below is the response result
 }
 ```
 
-##### 16. Get Currency active list and Symbol active list
+#### 16. Get Currency active list and Symbol active list
 
 API Key permission: Read Only (Public Data)  
 Rate limiting value(NEW): 5 times/s
@@ -1107,7 +1110,7 @@ Once Candlesticks data is generated, Websocket server will push message to clien
 ##### Market currency pair depth information
 ###### Subscribe to Topic
 
-Once Candlesticks data is generated, Websocket server will push message to client server through this topic interface subscribed:
+This topic sends the latest market by price order book in snapshot mode at 30-second interval.
 
 {"action":"subscribe_snapshot","symbol":"$symbol"}
 
@@ -1154,7 +1157,7 @@ Once Candlesticks data is generated, Websocket server will push message to clien
 ##### Market transaction information
 ###### Subscribe to Topic
 
-Once Candlesticks data is generated, Websocket server will push message to client server through this topic interface subscribed:
+This topic sends the latest completed trades. It updates in tick by tick mode.
 
 {"action":"subscribe_tick","symbol":"$symbol"}
 
