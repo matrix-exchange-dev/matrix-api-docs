@@ -1046,35 +1046,35 @@ Above is the request URL, and below is the response result.
 ### Access URL
 Matrix market data request address
 
-wss://wss.matrix.co
+wss://wss.matrix.co/v1/market/notification
 
 ### Permission
 Read Only (Public Data)  
 
 #### Heartbeat information
-When user's Websocket client server is connected to the Websocket server of Matrix, the server will periodically (currently set 5s interval) send ping message including a following integer:
+When user's Websocket client is connected to the Websocket server of Matrix, the server will periodically (currently set 5s interval) send ping message including a following integer:
 
 {"ping": 1492420473027}
 
-When user's Websocket client server recevies the Heartbeat information, it shoud return pong message and include the same integer value:
+When user's Websocket client recevies the Heartbeat information, it shoud return pong message and include the same integer value:
 
 {"pong": 1492420473027}
 
-<strong>When the time interval that the client server cannot receive the Pong notification from the server is greater than 30s, the server will disconnect and reconnect the client.</strong>
+<strong>When the time interval that the Websocket client cannot receive the Pong notification from the server is greater than 30s, the server will disconnect.</strong>
 
 #### Subscribe to Topic
-After successfully establishing the connection to Websocket server, Websocket client server will send following request to subscribe particular topic:
+After successfully establishing the connection to Websocket server, Websocket client will send following request to subscribe particular topic:
 
 {"action":"subscribe","symbol":"$symbol"}  
 
 <strong>$symbol represent the currency pair information that user need to subscribe</strong>
 
-After successful subscription, Websocket client server will receive the confirmation:
+After successful subscription, Websocket client will receive the confirmation:
 
 {"status":"connected as anonymous user"}
 {"status":"subscribed"}
 
-After that, once the topic subscribed updates, Websocket client server will receive the updated message pushed by the server.
+After that, once the topic subscribed updates, Websocket client will receive the updated message pushed by the server.
 
 Take the symbol LTC_BTC as an example. The updated message will be displayed in the form of :
 
@@ -1084,14 +1084,14 @@ Take the symbol LTC_BTC as an example. The updated message will be displayed in 
 ##### Market Candlesticks data
 ###### Subscribe to Topic
 
-Once Candlesticks data is generated, Websocket server will push message to client server through this topic interface subscribed:
+Once Candlesticks data is generated, Websocket server will push message to Websocket client through this topic interface subscribed:
 
 {"action":"subscribe_bar","symbol":"$symbol"}
 
 ##### Request parameter:
 | Parameter | Data Type | Required | Default | Description|
 |---| --- | --- | --- | --- |
-|symbol| string | false | NA | Currency pair name|
+|symbol| string | true | NA | Currency pair name|
 
 ##### Update Content
 | Field | Data Type | Description | 
@@ -1117,7 +1117,7 @@ This topic sends the latest market by price order book in snapshot mode at 30-se
 ##### Request parameter:
 | Parameter | Data Type | Required | Default | Description|
 |---| --- | --- | --- | --- |
-|symbol| string | false | NA | Currency pair name|
+|symbol| string | true | NA | Currency pair name|
 
 ##### Update Content
 | Field | Data Type | Description | 
@@ -1164,7 +1164,7 @@ This topic sends the latest completed trades. It updates in tick by tick mode.
 ##### Request parameter:
 | Parameter | Data Type | Required | Default | Description|
 |---| --- | --- | --- | --- |
-|symbol| string | false | NA | Currency pair name|
+|symbol| string | true | NA | Currency pair name|
 
 ##### Update Content
 | Field | Data Type | Description | 
