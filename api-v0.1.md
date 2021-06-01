@@ -34,15 +34,7 @@ WebSocket is a new protocol of HTML5. It realizes full-duplex communication betw
 
 Developers are recommended to use WebSocket API to achieve information like market data, trade depth, etc.
 
-#### Interface authentication
-
-1. Rest API and Websocket API both contain public interface and private interface.
-
-2. Public interface can be used to obtain basic information and market data. Public interface can be used without authentication.
-
-3. Private interface can be used to manage transaction and account. Every private request must use your API Key for signature authentication.
-
-#### Access URLs
+## Access URLs
 
 REST API
 
@@ -51,6 +43,15 @@ https://api.matrix.co/
 Websocket Feed(Market data)
 
 https://wss.matrix.co/
+
+## Interface authentication
+
+1. Rest API and Websocket API both contain public interface and private interface.
+
+2. Public interface can be used to obtain basic information and market data. Public interface can be used without authentication.
+
+3. Private interface can be used to manage transaction and account. Every private request must use your API Key for signature authentication.
+
 
 #### Signature authentication
 
@@ -69,7 +70,7 @@ For Get request, parameters that come with method need signature calculation.
 For POST request, parameters need to be put in body.  
 Signature: the value calculated by signature. It is used to ensure that signature is valid and is not tampered.
 
-###### Signature step
+#### Signature step
 Standardize the request that need to calculate signature. Because when using HMAC to calculate signature, calculating with different content, the result obtained will be completely different. Therefore, before calculating signature, please standardize the request first. The following is an example of query request for details of a certain order
 
 Query the complete request URL, when searching for details of a certain order
@@ -268,17 +269,22 @@ HTTP request:
 | Parameter | Data type | Required | Default | Description|
 |---| --- | --- | --- | --- | 
 |symbol| string | true | NA | currency pair traded, like BTC_USD (Need capital to exactly match)|
-|type|string|true|NA|BUY_LIMIT,SELL_LIMIT,BUY_MARKET,SELL_MARKET,CANCEL_BUY,CANCEL_SELL|
+|type|string|true|NA|BUY_LIMIT,SELL_LIMIT,BUY_MARKET,SELL_MARKET|
 |amount|string|false|0| order size|
 |price|string|true|NA| The order price (not available for market order)|
 |triggerOn| string | false | 0 | trigger price|
-|clientOrderId| string | false | NA | User-defined order number | |
+|clientOrderId| string | false | NA | User-defined order number (maximum 20-character length) | |
 
 ##### Response Content:
 | Parameter name | Required | Data Type | Description |  |
 | ------- | :----:  | :-----: | ---- | ------|
+|amount| true  |  string |order size |  | |
+|price| true  |  string |The order price (not available for market order) |  | |
+|type| true  |  string |BUY_LIMIT,SELL_LIMIT,BUY_MARKET,SELL_MARKET |  | |
+|clientOrderId| false  |  string |User-defined order number (maximum 20-character length) |  | |
+|status| false  |  true |current order status |  | |
+|filledSize| true  |  string |amount of traded |  | |
 |orderId | true  |  string | Order ID of orders successfully placed in Matrix system  |        |
-|clientOrderId| false  |  string | User-defined order number (maximum 20-character length)|  | |
 ```
 Example:
 URL://api.matrix.co/v1/order/orders/place
@@ -292,11 +298,16 @@ Above is the request URL, and below is the request parameter.
 }
 Below is the response result.
 {
-  "status": "success",
-  "data": {
-    "clientOrderId": "1596786438902",
-    "orderId": "135163"
-  }
+  "status":"success",
+  "data":{
+    "amount":7.56,
+    "price":1727.07,
+    "type":"BUY_LIMIT",
+    "clientOrderId":null,
+    "status":"SUBMITTED",
+    "filledSize":0,
+    "orderId":183280
+    }
 }
 ```
 
@@ -507,7 +518,7 @@ API Key permission: Trade
 Rate limiting value(NEW): 2 times/s
 
 HTTP request:
-· POST /v1/order/orders/cancel-all
+· POST /v1/order/orders/cancel-all/${symbol}
 ##### Request parameter:
 None  
 
@@ -516,12 +527,11 @@ None
 
 ```
 Example:
-URL: https://api.matrix.co/v1/order/orders/cancel-all
+URL: https://api.matrix.co/v1/order/orders/cancel-all/BCH_BTC
 Above is the request URL, and below is the response result.
 {
-  "status": "success",
-  "data": {
-  }
+  "status":"success",
+  "data":[106505,106506,106508,106509,106510,106511]
 }
 ```
 
@@ -1043,12 +1053,12 @@ Above is the request URL, and below is the response result.
 
 ## WEBSOCKET Description
 
-### Access URL
+#### Access URL
 Matrix market data request address
 
 wss://wss.matrix.co/v1/market/notification
 
-### Permission
+#### Permission
 Read Only (Public Data)  
 
 #### Heartbeat information
@@ -1081,7 +1091,7 @@ Take the symbol LTC_BTC as an example. The updated message will be displayed in 
 ["topic_price",{"LTC_BTC":"[1596678861770,3.5,11.9,3.1,4.9,135650.61599999998,274308.0]"}]
 
 
-##### Market Candlesticks data
+#### Market Candlesticks data
 ###### Subscribe to Topic
 
 Once Candlesticks data is generated, Websocket server will push message to Websocket client through this topic interface subscribed:
@@ -1107,7 +1117,7 @@ Once Candlesticks data is generated, Websocket server will push message to Webso
 }]
 ```
 
-##### Market currency pair depth information
+#### Market currency pair depth information
 ###### Subscribe to Topic
 
 This topic sends the latest market by price order book in snapshot mode at 30-second interval.
@@ -1154,7 +1164,7 @@ This topic sends the latest market by price order book in snapshot mode at 30-se
 
 ```
 
-##### Market transaction information
+#### Market transaction information
 ###### Subscribe to Topic
 
 This topic sends the latest completed trades. It updates in tick by tick mode.
